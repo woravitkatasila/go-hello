@@ -6,12 +6,12 @@ steps:
     args:
       [
         "-c",
-        'docker build -t asia-southeast1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/go-hello-img:latest .',
+        'docker build -t asia-east1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/go-hello-img:latest .',
       ]
   #push image
   - name: "gcr.io/cloud-builders/docker"
     id: push-image
-    args: ["push", "asia-southeast1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/go-hello-img:latest"]
+    args: ["push", "asia-east1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/go-hello-img:latest"]
   #deploy cloud run
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     id: deploy
@@ -21,9 +21,9 @@ steps:
       - "deploy"
       - "go-hello-img"
       - "--image"
-      - "asia-southeast1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/go-hello-img:latest"
+      - "asia-east1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/go-hello-img:latest"
       - "--region"
-      - "asia-southeast1"
+      - "asia-east1"
       - "--allow-unauthenticated"
 
 options:
