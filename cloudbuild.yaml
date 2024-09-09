@@ -1,0 +1,27 @@
+steps:
+  #build image
+  - name: "gcr.io/cloud-builders/docker"
+    id: build-image
+    entrypoint: "bash"
+    args:
+      [
+        "-c",
+        'docker build -t asia-southeast1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_PROJECT_NAME:$TAG_NAME .',
+      ]
+  #push image
+  - name: "gcr.io/cloud-builders/docker"
+    id: push-image
+    args: ["push", "asia-southeast1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_PROJECT_NAME:$TAG_NAME"]
+  #deploy cloud run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: deploy
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "$_PROJECT_NAME"
+      - "--image"
+      - "gsia-southeast1-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/$_PROJECT_NAME:$TAG_NAME"
+      - "--region"
+      - "asia-southeast1"
+      - "--allow-unauthenticated"
